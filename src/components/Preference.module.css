@@ -1,0 +1,206 @@
+
+.pageWrapper {
+  min-height: 100vh;
+  background-color: #09090b;
+  color: #ffffff;
+  padding-bottom: 8rem;
+  font-family: 'Thasadith', serif;
+}
+
+.loaderContainer {
+  min-height: 100vh;
+  background-color: #09090b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #38bdf8;
+  animation: spin 1s linear infinite;
+}
+
+
+.headerWrapper {
+  padding: 2rem;
+  padding-top: 4rem;
+  text-align: center;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.iconWrapper {
+  display: inline-flex;
+  padding: 0.75rem;
+  background-color: rgba(56, 189, 248, 0.1); 
+  border-radius: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+  color: #38bdf8; 
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.description {
+  color: #94a3b8;
+  font-size: 1.1rem;
+}
+
+
+.movieGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 2rem;
+  max-width: 85rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.cardButton {
+  position: relative;
+  aspect-ratio: 2/3;
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 2px solid #27272a;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  width: 100%;
+}
+
+.cardUnselected {
+  opacity: 0.6;
+}
+
+.cardUnselected:hover {
+  opacity: 1;
+  border-color: #3f3f46;
+  transform: translateY(-2px);
+}
+
+.cardSelected {
+  border-color: #38bdf8;
+  transform: scale(0.95);
+  box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.3);
+  opacity: 1;
+}
+
+.posterImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.checkOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(56, 189, 248, 0.3); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(1px);
+}
+
+.checkCircle {
+  background-color: #ffffff;
+  border-radius: 50%;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.checkIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #38bdf8; 
+}
+
+.titleGradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 1rem 0.75rem 1rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+}
+
+.movieTitle {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.footerWrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: linear-gradient(transparent, #09090b 40%);
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+}
+
+.footerButton {
+  width: 100%;
+  max-width: 28rem;
+  padding: 1rem 0;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.buttonEnabled {
+  background-color: #38bdf8; 
+  color: #ffffff;
+  box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2);
+}
+
+.buttonEnabled:hover {
+  background-color: #0ea5e9; 
+}
+
+.buttonEnabled:active {
+  transform: scale(0.98);
+}
+
+.buttonDisabled {
+  background-color: #1c1c1e;
+  color: #52525b;
+  cursor: not-allowed;
+}
+
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

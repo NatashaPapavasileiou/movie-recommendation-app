@@ -1,0 +1,116 @@
+.commentsSection {
+  margin-top: 3rem;
+  border-top: 1px solid #27272a;
+  padding-top: 2rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sectionHeader h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.commentsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.commentCard {
+  background-color: #18181b; 
+  border: 1px solid #27272a; 
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatarCircle {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #27272a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.userEmail {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.starsRow {
+  display: flex;
+  gap: 0.1rem;
+  margin-top: 0.25rem;
+}
+
+
+.headerRightGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.commentDate {
+  color: #71717a; 
+  font-size: 0.85rem;
+}
+
+
+.deleteButton {
+  background: transparent;
+  border: none;
+  color: #52525b;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+  border-radius: 0.375rem;
+}
+
+.deleteButton:hover {
+  color: #ef4444; 
+  background-color: rgba(239, 68, 68, 0.1); 
+  transform: scale(1.1);
+}
+
+.commentContent {
+  color: #e4e4e7; 
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-family: "Thasadith", serif;
+}
+
+.noComments {
+  color: #71717a;
+  font-style: italic;
+  font-size: 0.95rem;
+}

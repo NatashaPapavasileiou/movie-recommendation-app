@@ -1,0 +1,304 @@
+
+.fixedOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+  overflow-y: auto;
+}
+
+
+.modalContainer {
+  position: relative;
+  background-color: #111827; 
+  color: #ffffff;
+  border-radius: 0.5rem;
+  max-width: 90rem; 
+  width: auto;
+  height: 55rem;
+  overflow-y: auto;
+}
+
+
+.closeButton {
+  position: fixed;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 1.875rem;
+  font-weight: 700;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s;
+  z-index: 60;
+}
+
+.closeButton:hover {
+  transform: scale(1.25);
+}
+
+
+.mainContentFlex {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.backdropImg {
+  border-radius: 0.5rem;
+  max-height: 36rem;
+  width: 100%;
+  object-fit: cover;
+}
+
+.textDetailsFlex {
+  display: flex;
+  flex-direction: column;
+}
+
+.metaHeaderGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+
+.titleText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ea580c; 
+}
+
+@media (min-width: 640px) {
+  .titleText {
+    font-size: 3rem; 
+  }
+}
+
+.taglineText {
+  color: #9ca3af; 
+}
+
+@media (min-width: 640px) {
+  .taglineText {
+    font-size: 1.25rem; 
+  }
+}
+
+.genresText {
+  color: #d4d4d4; 
+}
+
+@media (min-width: 640px) {
+  .genresText {
+    font-size: 1.125rem;
+  }
+}
+
+.infoRuntime {
+  color: #9ca3af; 
+}
+
+@media (min-width: 640px) {
+  .infoRuntime {
+    font-size: 1.125rem;
+  }
+}
+
+.infoDate {
+  color: #9ca3af; 
+}
+
+@media (min-width: 640px) {
+  .infoDate {
+    font-size: 1.25rem; 
+  }
+}
+
+.overviewParagraph {
+  margin-top: 1rem;
+  color: #d1d5db; 
+  font-size: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .overviewParagraph {
+    font-size: 1.5rem;
+  }
+}
+
+
+.twoColumnLayout {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 640px) {
+  .twoColumnLayout {
+    flex-wrap: nowrap;
+  }
+}
+
+
+.trailerWrapper {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.sectionHeading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.videoIframe {
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 20rem; 
+}
+
+
+.castWrapper {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+@media (min-width: 1280px) {
+  .castWrapper {
+    width: 38rem; 
+  }
+}
+
+.centerHeading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.castFlexContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.castCard {
+  flex-shrink: 0;
+  text-align: center;
+  width: 6rem; 
+}
+
+.castImg {
+  width: 5rem;
+  height: 5rem; 
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.castImg:hover {
+  transform: scale(1.1);
+}
+
+.truncateText {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.similarWrapper {
+  margin-top: 1.5rem;
+}
+
+.similarFlexContainer {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.similarCard {
+  display: flex;
+  flex-direction: column;
+  width: 10rem; /* w-40 */
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.posterImg {
+  border-radius: 0.5rem;
+  height: 15rem; 
+  width: 100%;
+  object-fit: cover;
+}
+
+.similarTitle {
+  font-size: 0.875rem;
+  max-width: 10rem;
+  padding: 0.5rem;
+}
+
+.actionButtonsWrapper {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  align-items: center;
+}
+
+.watchlistBtn {
+  background: transparent;
+  color: #0ea5e9;
+  border: 2px solid #0ea5e9;
+  padding: 0.6rem 1.2rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: "Thasadith", serif;
+  transition: all 0.2s ease;
+}
+
+.watchlistBtn:hover {
+  background: #0ea5e9;
+  color: #000000;
+}
+
+.writeReviewBtn {
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: "Thasadith", serif;
+  transition: all 0.2s ease;
+}
+
+.writeReviewBtn:hover {
+  background: #d4d4d8;
+}
+
+.loginPrompt {
+  color: #a1a1aa;
+  font-size: 0.9rem;
+  font-family: "Thasadith", serif;
+  font-style: italic;
+}

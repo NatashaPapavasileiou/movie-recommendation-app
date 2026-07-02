@@ -1,0 +1,158 @@
+.watchlistPage {
+  padding: 2rem;
+  max-width: 95rem;
+  margin: 0 auto;
+  min-height: 80vh;
+  color: white;
+}
+
+.pageHeaderBanner {
+  margin-bottom: 3rem;
+  padding-left: 0.5rem;
+}
+
+.mainPageTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.5rem 0;
+  color: #38bdf8;
+}
+
+
+
+.columnsLayoutContainer {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+
+.watchlistColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.divider {
+  width: 1px;
+  background-color: #27272a;
+}
+
+.columnHeader {
+  border-bottom: 2px solid #27272a;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.columnTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.moviesCounter {
+  font-size: 0.85rem;
+  color: #71717a;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.columnGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 1.5rem;
+}
+
+.movieCard {
+  background-color: #18181b;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+  border: 1px solid #27272a;
+}
+
+.movieCard:hover {
+  transform: translateY(-4px);
+}
+
+.posterWrapper {
+  position: relative;
+  width: 100%;
+  height: 20rem;
+}
+
+.posterImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.titleOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+  padding: 2rem 1rem 1rem 1rem;
+}
+
+.movieTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #ffffff;
+}
+
+.cardActionButton {
+  width: 100%;
+  background-color: #27272a;
+  color: #a1a1aa;
+  border: none;
+  padding: 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-top: 1px solid #3f3f46;
+}
+
+.movieCard:hover .cardActionButton {
+  background-color: #23191c;
+  color: #ef4444;
+}
+
+.arrow {
+  font-weight: bold;
+}
+
+.centerContainer {
+  text-align: center;
+  margin-top: 10rem;
+  font-size: 1.5rem;
+  color: #9ca3af;
+}
+
+.emptyColumnMessage {
+  color: #52525b;
+  font-style: italic;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 0;
+}
+
+@media (max-width: 768px) {
+  .columnsLayoutContainer {
+    flex-direction: column;
+    gap: 3rem;
+  }
+  .divider {
+    height: 1px;
+    width: 100%;
+  }
+}

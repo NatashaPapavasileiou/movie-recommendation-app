@@ -1,0 +1,241 @@
+
+.heroContainer {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+  transition: cubic-bezier(0.4, 0, 0.2, 1) 500ms;
+}
+
+
+.heroHeightNormal {
+  height: 100vh;
+}
+
+.heroHeightSearching {
+  height: 10rem; 
+}
+
+
+.navbarHeader {
+  position: fixed;
+  padding: 2.5rem;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  height: 6rem; 
+  padding-left: 1.5rem; 
+  padding-right: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: cubic-bezier(0.4, 0, 0.2, 1) 500ms;
+}
+
+
+.bgTransparentGradient {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
+}
+
+.bgBlackScroll {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+
+.desktopLinks {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .desktopLinks {
+    display: flex;
+    gap: 2.5rem; 
+    align-items: center;
+  }
+}
+
+
+.desktopSearchUser {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .desktopSearchUser {
+    display: flex;
+    align-items: center;
+    gap: 1rem; 
+  }
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+.searchInput {
+  border: none;
+  outline: none;
+  padding: 0.5rem 1rem; 
+  background-color: rgba(248, 248, 248, 0.215); 
+  border-radius: 9999px; 
+  color: #ffffff;
+  padding-right: 2.5rem; 
+}
+
+@media (min-width: 768px) { .searchInput { width: 11rem; } }  
+@media (min-width: 1024px) { .searchInput { width: 14rem; } }  
+@media (min-width: 1280px) { .searchInput { width: 24rem; } }  
+
+.searchInput::placeholder {
+  color: #d4d4d4; 
+}
+
+
+.searchIcon {
+  position: relative;
+  left: -2rem; 
+  color: #e5e5e5;
+  cursor: pointer;
+}
+
+
+
+
+.hamburgerButton {
+  display: block;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.875rem; 
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .hamburgerButton {
+    display: none; 
+  }
+}
+
+
+.mobileDrawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 16rem; 
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #ffffff;
+  z-index: 50;
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.drawerClosed {
+  transform: translateX(100%);
+}
+
+@media (min-width: 768px) {
+  .mobileDrawer {
+    display: none; 
+  }
+}
+
+
+.closeDrawerButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.875rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+
+.mobileLinksContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem; 
+  padding: 2rem 1.5rem;
+}
+
+.mobileSearchContainer {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.mobileSearchInput {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #d1d5db; 
+  border-radius: 9999px;
+  color: #000000;
+  border: none;
+  outline: none;
+}
+
+.mobileSearchInput::placeholder {
+  color: #6b7280; 
+}
+
+
+.heroInfoWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.infoTitle {
+  font-size: 3rem; 
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.infoOverview {
+  font-size: 1.25rem; 
+  max-width: 42rem; 
+}
+
+
+
+.authLink {
+  cursor: pointer;
+  color: #0ea5e9; 
+  font-family: "Thasadith", serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.authLink:hover {
+  color: #ffffff; 
+}
+
+
+.activeAuthLink {
+  color: #ffffff;
+}

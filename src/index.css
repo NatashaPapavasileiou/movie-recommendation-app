@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #000000;
+  color: white;
+}
+
+/* body::-webkit-scrollbar {
+  display: none;
+} */
+
+.truncate-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 250px; /* Adjust width as needed */
+  font-family: "Thasadith", serif;
+}
+
+.loadingOverlay {
+  animation: zoomIn 0.5s ease-out;
+}
+
+/* Keyframes for zoom-in effect */
+@keyframes zoomIn {
+  0% {
+    transform: scale(0.5); /* Start smaller */
+    opacity: 0.2; /* Start as invisible */
+  }
+  100% {
+    transform: scale(1); /* Zoom to original size */
+    opacity: 1; /* Fully visible */
+  }
+}
+
+.movieTitle {
+  font-family: "Bebas Neue", serif;
+}
+
+.navbarText {
+  font-family: "Thasadith", serif;
+}
+.overviewText {
+  font-family: "Nunito", serif;
+  font-weight: 100;
+}
+
+.animatetext {
+  animation: textAnimate 2s ease-in-out;
+}
+
+@keyframes textAnimate {
+  0% {
+    transform: scale(0.2);
+  }
+
+  100% {
+    transform: scale(1);;
+  }
+}
+
+.logoAnimation{
+  animation: logoAnimate 6s ease-in-out
+}
+
+@keyframes logoAnimate {
+  0% {
+    left: 0;
+  }
+
+  50% {
+   left:4rem;
+  }
+  100% {
+    left:0
+  }
+}
+
+.scrollable-div {
+
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 10px; /* Add padding for better content visibility */
+  border: 1px solid #ccc; /* Optional border */
+  scrollbar-width: thin; /* For modern browsers: thin scrollbar */
+  scrollbar-color: #d4d4d8 #44403c; /* For modern browsers: scrollbar colors */
+}

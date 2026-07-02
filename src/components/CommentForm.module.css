@@ -1,0 +1,167 @@
+.formOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 110;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .formOverlay {
+    align-items: center;
+  }
+}
+
+.formModal {
+  width: 100%;
+  max-width: 32rem;
+  background-color: #18181b; 
+  border: 1px solid #27272a; 
+  border-radius: 2.5rem;
+  padding: 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.modalHeader h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.closeButton {
+  padding: 0.5rem;
+  background-color: #27272a; 
+  border: none;
+  border-radius: 50%;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.closeButton:hover {
+  background-color: #3f3f46; 
+}
+
+.ratingSystem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.starsContainer {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.starButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.1s;
+}
+
+.starButton:active {
+  transform: scale(0.9);
+}
+
+.starIcon {
+  transition: color 0.2s, fill 0.2s;
+}
+
+.starActive {
+  fill: #eab308; 
+  color: #eab308;
+}
+
+.starInactive {
+  color: #3f3f46; 
+}
+
+.ratingCounter {
+  color: #eab308; 
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+
+.ratingCounter span {
+  color: #52525b; 
+  font-size: 0.875rem;
+  font-weight: normal;
+}
+
+.reviewTextArea {
+  width: 100%;
+  background-color: #09090b; 
+  border: 1px solid #27272a; 
+  border-radius: 1.5rem;
+  padding: 1.25rem;
+  color: #ffffff;
+  min-height: 150px;
+  outline: none;
+  resize: none;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.2s;
+}
+
+.reviewTextArea:focus {
+  border-color: #0ea5e9;
+}
+
+.reviewTextArea::placeholder {
+  color: #52525b; 
+}
+
+.submitButton {
+  width: 100%;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 900;
+  padding: 1rem;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.submitButton:hover {
+  background-color: #e4e4e7; 
+}
+
+.submitButton:active {
+  transform: scale(0.95);
+}
