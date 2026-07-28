@@ -24,7 +24,7 @@ jobs:
 
       # Βήμα 3: Καθαρή εγκατάσταση τωνDependencies (πακέτων) της εφαρμογής
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
       # Βήμα 4: Έλεγχος και Build της React εφαρμογής (Παραγωγή του στατικού φακέλου dist)
       # Εδώ εισάγουμε με ασφάλεια τις μεταβλητές περιβάλλοντος από τα GitHub Secrets
@@ -46,4 +46,4 @@ jobs:
       # Βήμα 6: Συγχρονισμός και μεταφόρτωση του φακέλου dist στον AWS S3 Bucket
       - name: Deploy static site to AWS S3
         run: |
-          aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET_NAME }} --delete
+          aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET }} --delete
