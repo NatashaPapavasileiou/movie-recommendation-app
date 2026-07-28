@@ -28,12 +28,12 @@ jobs:
 
       # Βήμα 4: Έλεγχος και Build της React εφαρμογής (Παραγωγή του στατικού φακέλου dist)
       # Εδώ εισάγουμε με ασφάλεια τις μεταβλητές περιβάλλοντος από τα GitHub Secrets
-      - name: Build Application
-        run: npm run build
+      - name: Build Application 
         env:
           VITE_TMDB_API_KEY: ${{ secrets.VITE_TMDB_API_KEY }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        run: npm run build
 
       # Βήμα 5: Σύνδεση και Αυθεντικοποίηση με το AWS
       - name: Configure AWS Credentials
