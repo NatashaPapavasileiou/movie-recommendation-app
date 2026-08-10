@@ -114,3 +114,40 @@
   color: #000000;
   background-color: rgba(255, 234, 0, 0.78); 
 }
+/* ==========================================
+   Horizontal Scroll for phones
+   ========================================== */
+@media (max-width: 768px) {
+  
+  .moviesGrid {
+    display: flex !important;
+    flex-wrap: nowrap !important;        
+    overflow-x: auto !important;          
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    padding-bottom: 1rem !important;
+    -webkit-overflow-scrolling: touch;   
+  }
+
+  
+  .movieCard {
+    flex: 0 0 auto !important;           
+    width: 10rem !important;              
+    height: auto !important;
+    transform: none !important;          
+  }
+
+  
+  .posterImg {
+    width: 100% !important;
+  }
+
+  
+  .ratingBadge {
+    position: absolute !important;
+    top: 1.5rem !important;
+    left: 0.5rem !important;
+    right: auto !important;
+    bottom: auto !important;
+  }
+}
