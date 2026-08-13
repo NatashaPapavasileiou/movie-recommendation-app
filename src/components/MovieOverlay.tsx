@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { baseUrl, apiKey } from "../modules/ApiLinks";
 import { getFormattedDate } from "../modules/types_files";
 import noImage from "../assets/noImage.jpg";
@@ -6,7 +6,7 @@ import axios from "axios";
 import styles from "./MovieOverlay.module.css"; 
 import { CommentForm } from "./CommentForm";
 import { supabase } from "../modules/supabaseClient";
-import { Comments } from "./Comments"; 
+import { Comments, type CommentData } from "./Comments"; 
 
 interface MovieDetails {
   id: number;
@@ -66,10 +66,10 @@ const MovieOverlay: React.FC<MovieOverlayProps> = ({
   const [similarMovies, setSimilarMovies] = useState<SimilarMovie[]>([]);
   const [trailers, setTrailers] = useState<Trailer[]>([]);
   const [isCommentFormOpen, setIsCommentFormOpen] = useState(false);
-  const [comments, setComments] = useState<any[]>([]);
+  const [comments, setComments] = useState<CommentData[]>([]);
   const [isInWatchlist, setIsInWatchlist] = useState(false);
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     if (!movieId) return;
     const { data, error } = await supabase
       .from("comments")
@@ -80,7 +80,7 @@ const MovieOverlay: React.FC<MovieOverlayProps> = ({
     if (!error && data) {
       setComments(data);
     }
-  };
+  }, [movieId]);
 
   const checkWatchlistStatus = async (id: number) => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -103,6 +103,7 @@ const MovieOverlay: React.FC<MovieOverlayProps> = ({
   useEffect(() => {
     if (!movieId || !isOpen) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional state reset before fetch
     setMovieDetails(null);
     setMovieCredits([]);
     setSimilarMovies([]);
@@ -129,7 +130,7 @@ const MovieOverlay: React.FC<MovieOverlayProps> = ({
         setMovieCredits(creditsData.cast);
         setSimilarMovies(similarData.results);
         setTrailers(
-          trailersData.results.filter((video: any) => video.type === "Trailer")
+          trailersData.results.filter((video: Trailer) => video.type === "Trailer")
         );
       } catch (error) {
         console.error("Error fetching movie data:", error);
@@ -139,7 +140,7 @@ const MovieOverlay: React.FC<MovieOverlayProps> = ({
     fetchMovieDetails();
     fetchComments();
     checkWatchlistStatus(movieId);
-  }, [movieId, isOpen]);
+  }, [movieId, isOpen, fetchComments]);
 
   const handleAddToWatchlist = async () => {
     try {
@@ -177,8 +178,8 @@ const MovieOverlay: React.FC<MovieOverlayProps> = ({
         setIsInWatchlist(true);
         alert("Added to Watchlist! 🍿");
       }
-    } catch (error: any) {
-      console.error(error.message);
+    } catch (error) {
+      console.error(error instanceof Error ? error.message : "Unknown error");
     }
   };
 
@@ -217,9 +218,10 @@ const MovieOverlay: React.FC<MovieOverlayProps> = ({
 
       alert("Review submitted successfully and added to Watched!");
       fetchComments(); 
-    } catch (error: any) {
-      console.error(error.message);
-      alert("Σφάλμα Supabase: " + error.message);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown error";
+      console.error("Supabase error:", message);
+      alert("Supabase error: " + message);
     }
   };
 

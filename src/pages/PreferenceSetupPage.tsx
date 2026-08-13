@@ -17,6 +17,15 @@ interface MediaItem {
   media_type: "movie" | "tv";
 }
 
+interface RawTrendingItem {
+  id: number;
+  title?: string;
+  name?: string;
+  poster_path: string;
+  genre_ids: number[];
+  media_type: string;
+}
+
 export default function PreferenceSetupPage() {
   const navigate = useNavigate();
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
@@ -30,7 +39,7 @@ export default function PreferenceSetupPage() {
         const res = await fetch(`${baseUrl}/trending/all/day?api_key=${apiKey}&language=en-US`);
         const data = await res.json();
         const filteredMedia = (data.results || []).filter(
-          (item: any) => item.media_type === "movie" || item.media_type === "tv"
+          (item: RawTrendingItem) => item.media_type === "movie" || item.media_type === "tv"
         );
         setMediaItems(filteredMedia);
       } catch (err) {

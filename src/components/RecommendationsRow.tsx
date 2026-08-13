@@ -18,17 +18,20 @@ const RecommendationsRow: React.FC<RecommendationsRowProps> = ({
 }) => {
   const [movies, setMovies] = useState<DataTypes[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);  
 
   useEffect(() => {
     const getHybridRecommendations = async () => {
       setLoading(true);
+      setError(null);
+      
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (!session) return;
         const userId = session.user.id;
 
         // 1. COLLABORATIVE FILTERING (From Supabase RPC) 
-        let collaborativeItems: any[] = [];
+        let collaborativeItems: DataTypes[] = [];
         try {
           const { data: colabIds, error: colabError } = await supabase.rpc(
             'get_pure_collaborative_recommendations', 
@@ -37,7 +40,7 @@ const RecommendationsRow: React.FC<RecommendationsRowProps> = ({
 
           if (!colabError && colabIds && colabIds.length > 0) {
             // Fetch complete item details from TMDB for the recommended IDs
-            const colabPromises = colabIds.slice(0, 4).map(async (id: any) => {
+            const colabPromises = colabIds.slice(0, 4).map(async (id: number) => {
               const r = await fetch(`${baseUrl}/${mediaType}/${id}?api_key=${apiKey}&language=en-US`);
               return r.ok ? await r.json() : null;
             });
@@ -55,7 +58,7 @@ const RecommendationsRow: React.FC<RecommendationsRowProps> = ({
           .single();
 
         const userFavorites = mediaType === 'movie' ? profile?.favorite_movies : profile?.favorite_shows;
-        let contentItems: any[] = [];
+        let contentItems: DataTypes[] = [];
 
         if (userFavorites && userFavorites.length > 0) {
           // Fetch official TMDB recommendations based on the user's top 3 favorites
@@ -64,7 +67,7 @@ const RecommendationsRow: React.FC<RecommendationsRowProps> = ({
               const res = await fetch(`${baseUrl}/${mediaType}/${id}/recommendations?api_key=${apiKey}&language=en-US&page=1`);
               const d = await res.json();
               return d.results || [];
-            } catch (e) {
+            } catch  {
               return [];
             }
           });
@@ -94,6 +97,7 @@ const RecommendationsRow: React.FC<RecommendationsRowProps> = ({
         setMovies(uniqueRecommendations.slice(0, 7));
       } catch (err) {
         console.error(`Error creating hybrid recommendations for ${mediaType}:`, err);
+        setError("Unable to load recommendations right now.");
       } finally {
         setLoading(false);
       }
@@ -101,6 +105,17 @@ const RecommendationsRow: React.FC<RecommendationsRowProps> = ({
 
     getHybridRecommendations();
   }, [mediaType]);
+
+  // If something actually failed, show a small message instead of nothing
+  if (!loading && error) {
+    return (
+      <div className={styles.categoryContainer}>
+        <p style={{ color: "#a1a1aa", padding: "1rem", textAlign: "center" }}>
+          {error}
+        </p>
+      </div>
+    );
+  }
 
   // If loading is finished and there are no movies, do not render the row component
   if (!loading && movies.length === 0) return null;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { apiKey, baseUrl, popular, popularShows } from "../modules/ApiLinks";
+import { popular, popularShows } from "../modules/ApiLinks";
 import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
 import styles from "./Navbar.module.css"; 
@@ -33,12 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, isSearching, isLoggedIn, onLo
   };
 
   const fetchMediaData = async (page: string) => {
-    let url = `${baseUrl}/${page}?api_key=${apiKey}`;
-    if (page === "tv") {
-      url = `${popularShows}`;
-    } else {
-      url = `${popular}`;
-    }
+    const url = page === "tv" ? popularShows : popular;
 
     try {
       const response = await axios.get(url);
@@ -61,6 +56,8 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, isSearching, isLoggedIn, onLo
   useEffect(() => {
     const currentPath = location.pathname;
     if (currentPath.includes("movies")) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional fetch on path change
+      fetchMediaData("movie");
       fetchMediaData("movie");
     } else if (currentPath.includes("tvshows")) {
       fetchMediaData("tv");

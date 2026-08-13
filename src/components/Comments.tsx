@@ -4,7 +4,7 @@ import styles from "./Comments.module.css";
 import { getFormattedDate } from "../modules/types_files";
 import { supabase } from "../modules/supabaseClient"; 
 
-interface CommentData {
+export interface CommentData {
   id: string;
   user_id: string; 
   user_email: string;
@@ -46,9 +46,10 @@ export const Comments: React.FC<CommentsProps> = ({ comments, onCommentDeleted }
 
       alert("Review deleted successfully!");
       onCommentDeleted(); 
-    } catch (error: any) {
-      console.error("Error deleting comment:", error.message);
-      alert("Could not delete review: " + error.message);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Άγνωστο σφάλμα";
+      console.error("Error deleting comment:", message);
+      alert("Could not delete review: " + message);
     }
   };
 

@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { supabase } from "../modules/supabaseClient";
 import { baseUrl, apiKey } from "../modules/ApiLinks";
 import { type DataTypes } from "../modules/types_files";
+import type { Session } from "@supabase/supabase-js";
 
 export const useAppLogic = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export const useAppLogic = () => {
   const [isTvModalOpen, setIsTvModalOpen] = useState(false);
   const [selectedTvId, setSelectedTvId] = useState<number | null>(null);      
   
-  const [session, setSession] = useState<any>(null); 
+  const [session, setSession] = useState<Session | null>(null); 
 
   const handleMovieClick = (movieId: number) => {
     setSelectedMovieId(movieId);
@@ -31,7 +32,7 @@ export const useAppLogic = () => {
     setIsTvModalOpen(true);
   };
 
-  const checkSetupStatus = async (userId: string) => {
+  const checkSetupStatus = useCallback(async  (userId: string) => {
     try {
       const { data } = await supabase
         .from("profiles")
@@ -45,7 +46,7 @@ export const useAppLogic = () => {
     } catch (err) {
       console.error("Error checking setup status:", err);
     }
-  };
+  }, [location.pathname, navigate]);
 
   // Auth session listener
   useEffect(() => {
@@ -60,7 +61,7 @@ export const useAppLogic = () => {
     });
 
     return () => subscription.unsubscribe();
-  }, [location.pathname]);
+  }, [location.pathname, checkSetupStatus]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -70,6 +71,7 @@ export const useAppLogic = () => {
 
   // Page transition buffering effect
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- buffering state transition
     setBuffering(true);
     const timeout = setTimeout(() => {
       setBuffering(false);
@@ -81,8 +83,9 @@ export const useAppLogic = () => {
     };
   }, [location.pathname]);
 
-  // TMDB Multi-search API fetch
+  // TMDB search API fetch
   useEffect(() => {
+  const timer = setTimeout(() => {
     const fetchSearchResults = async () => {
       if (!searchQuery) {
         setIsSearching(false);
@@ -101,6 +104,9 @@ export const useAppLogic = () => {
     };
 
     fetchSearchResults();
+  }, 400); // περιμένει 400ms μετά την τελευταία πληκτρολόγηση πριν κάνει fetch
+
+  return () => clearTimeout(timer);
   }, [searchQuery]);
 
   const isAuthPage = location.pathname.includes("auth");

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { baseUrl, apiKey } from "../modules/ApiLinks";
 import { getFormattedDate } from "../modules/types_files";
 import noImage from "../assets/noImage.jpg";
@@ -6,7 +6,7 @@ import axios from "axios";
 import styles from "./MovieOverlay.module.css"; 
 import { CommentForm } from "./CommentForm";
 import { supabase } from "../modules/supabaseClient";
-import { Comments } from "./Comments";
+import { Comments, type CommentData } from "./Comments";
 
 interface TvDetails {
   id: number;
@@ -65,11 +65,11 @@ const TvOverlay: React.FC<TvOverlayProps> = ({
   const [tvCredits, setTvCredits] = useState<CastMember[]>([]);
   const [similarShows, setSimilarShows] = useState<SimilarMovie[]>([]);
   const [isCommentFormOpen, setIsCommentFormOpen] = useState(false);
-  const [comments, setComments] = useState<any[]>([]);
+  const [comments, setComments] = useState<CommentData[]>([]);
   const [trailers, setTrailers] = useState<Trailer[]>([]); 
   const [isInWatchlist, setIsInWatchlist] = useState(false);
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     if (!tvId) return;
     const { data, error } = await supabase
       .from("comments")
@@ -80,7 +80,7 @@ const TvOverlay: React.FC<TvOverlayProps> = ({
     if (!error && data) {
       setComments(data);
     }
-  };
+  }, [tvId]);
 
   const checkWatchlistStatus = async (id: number) => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -102,7 +102,7 @@ const TvOverlay: React.FC<TvOverlayProps> = ({
 
   useEffect(() => {
     if (!tvId || !isOpen) return;
-
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional state reset before fetch
     setTvDetails(null);
     setTvCredits([]);
     setSimilarShows([]);
@@ -140,7 +140,7 @@ const TvOverlay: React.FC<TvOverlayProps> = ({
     fetchMovieDetails();
     fetchComments();
     checkWatchlistStatus(tvId);
-  }, [tvId, isOpen]);
+  }, [tvId, isOpen, fetchComments]);
 
   const handleAddToWatchlist = async () => {
     try {
@@ -178,8 +178,8 @@ const TvOverlay: React.FC<TvOverlayProps> = ({
         setIsInWatchlist(true);
         alert("Added to Watchlist! 🍿");
       }
-    } catch (error: any) {
-      console.error(error.message);
+    } catch (error) {
+      console.error(error instanceof Error ? error.message : "Unknown error");
     }
   };
 
@@ -218,8 +218,8 @@ const TvOverlay: React.FC<TvOverlayProps> = ({
 
       alert("Review submitted successfully and added to Watched!");
       fetchComments(); 
-    } catch (error: any) {
-      console.error(error.message);
+    } catch (error) {
+      console.error(error instanceof Error ? error.message : "Unknown error");
     }
   };
 

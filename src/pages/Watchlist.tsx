@@ -46,6 +46,7 @@ export const Watchlist = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
 
   useEffect(() => {
     if (isLoggedIn) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- fetch watchlist on login status change
       fetchWatchlist();
     }
   }, [isLoggedIn, isOverlayOpen]);
