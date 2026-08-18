@@ -4,10 +4,15 @@ import styles from "./Auth.module.css";
 
 interface LoginFormProps {
   onSwitchView: () => void;
+  onForgotPassword: () => void;
   onSuccess: () => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSwitchView, onSuccess }) => {
+const LoginForm: React.FC<LoginFormProps> = ({
+  onSwitchView,
+  onForgotPassword,
+  onSuccess,
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,7 +21,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchView, onSuccess }) => {
     e.preventDefault();
     setError("");
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
     if (error) {
       setError(error.message);
     } else {
@@ -24,11 +33,28 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchView, onSuccess }) => {
     }
   };
 
+  // Sends the password reset email using the address already typed above,
+  // then switches the parent view to the "reset password" screen
+  const handleForgotClick = async () => {
+    setError("");
+
+    if (!email) {
+      setError("Please enter your email address first.");
+      return;
+    }
+
+    await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth`,
+    });
+
+    onForgotPassword();
+  };
+
   return (
     <div className={styles.authBox}>
       <h2 className={styles.authTitle}>Sign In</h2>
       {error && <p className={styles.errorMsg}>{error}</p>}
-      
+
       <form onSubmit={handleLogin} className={styles.formGroup}>
         <input
           type="email"
@@ -38,6 +64,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchView, onSuccess }) => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+
         <input
           type="password"
           placeholder="Password"
@@ -46,12 +73,27 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchView, onSuccess }) => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit" className={styles.submitBtn}>LOG IN</button>
+
+        <div className={styles.forgotContainer}>
+          <button
+            type="button"
+            className={styles.forgotBtn}
+            onClick={handleForgotClick}
+          >
+            Forgot password?
+          </button>
+        </div>
+
+        <button type="submit" className={styles.submitBtn}>
+          LOG IN
+        </button>
       </form>
 
       <p className={styles.switchText}>
-        Don't have an account? 
-        <button className={styles.switchLink} onClick={onSwitchView}>Sign Up</button>
+        Don't have an account?
+        <button className={styles.switchLink} onClick={onSwitchView}>
+          Sign Up
+        </button>
       </p>
     </div>
   );

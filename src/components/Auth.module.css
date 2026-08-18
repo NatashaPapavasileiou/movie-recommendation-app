@@ -96,3 +96,81 @@
   margin-bottom: 1rem;
   font-family: "Thasadith", serif;
 }
+.validationBox {
+  background-color: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-family: "Thasadith", serif;
+  font-size: 0.85rem;
+}
+
+.validationTitle {
+  color: #a1a1aa;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.valid {
+  color: #22c55e; 
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.invalid {
+  color: #ef4444; 
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.submitBtn:disabled {
+  background-color: #3f3f46;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.6;
+}
+.forgotContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -0.5rem;
+}
+
+.forgotBtn {
+  background: none;
+  border: none;
+  color: #a1a1aa;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: "Thasadith", serif;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.forgotBtn:hover {
+  color: #0ea5e9;
+}
+
+.successMsg {
+  color: #22c55e;
+  font-size: 0.875rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-family: "Thasadith", serif;
+}
+.infoBanner {
+  background-color: #1e293b;
+  border: 1px solid #38bdf8;
+  color: #e2e8f0;
+  font-size: 0.85rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  margin-bottom: 1.25rem;
+  font-family: "Thasadith", serif;
+  line-height: 1.4;
+}
