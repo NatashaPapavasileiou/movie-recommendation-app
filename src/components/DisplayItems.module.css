@@ -87,10 +87,12 @@
 
 
 .titlePadding {
+  width: 100%;
   padding: 0.25rem;
 }
 
 .namePadding {
+  width: 100%;
   padding-bottom: 0.5rem;
 }
 
