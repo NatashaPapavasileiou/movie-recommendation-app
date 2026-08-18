@@ -119,18 +119,34 @@
    ========================================== */
 @media (max-width: 768px) {
   
-  .moviesGrid {
+    .moviesGrid {
     display: flex !important;
     flex-wrap: nowrap !important;        
     overflow-x: auto !important;          
     justify-content: flex-start !important;
     gap: 12px !important;
-    padding-bottom: 1rem !important;
+    padding-bottom: 0.5rem !important;
     -webkit-overflow-scrolling: touch;   
+    scrollbar-width: thin;
+    scrollbar-color: #3f3f46 transparent;
+  }
+
+  .moviesGrid::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .moviesGrid::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .moviesGrid::-webkit-scrollbar-thumb {
+    background-color: #3f3f46;
+    border-radius: 3px;
   }
 
   
   .movieCard {
+    position: relative !important;
     flex: 0 0 auto !important;           
     width: 10rem !important;              
     height: auto !important;
