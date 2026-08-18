@@ -7,6 +7,7 @@ export const popular = `${baseUrl}/movie/popular?api_key=${apiKey}`
 export const upcoming = `${baseUrl}/movie/upcoming?api_key=${apiKey}&region=GR`;
 export const now_playing = `${baseUrl}/movie/now_playing?api_key=${apiKey}&region=GR`;
 export const top_rated_movies = `${baseUrl}/movie/top_rated?api_key=${apiKey}`;
+export const movieGenresUrl = `${baseUrl}/genre/movie/list?api_key=${apiKey}`;
 
 
 //*TV SHOWS Endpoint :-
