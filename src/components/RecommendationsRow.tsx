@@ -4,6 +4,7 @@ import noImage from "../assets/noImage.jpg";
 import styles from "./DisplayItems.module.css"; 
 import { supabase } from "../modules/supabaseClient"; 
 import { baseUrl, apiKey } from "../modules/ApiLinks"; 
+import { mergeRecommendations } from "../modules/mergeRecommendations";
 
 interface RecommendationsRowProps {
   mediaType: "movie" | "tv";
@@ -88,13 +89,7 @@ const RecommendationsRow: React.FC<RecommendationsRowProps> = ({
         }
 
         //  3. HYBRID BLENDING & DUPLICATE REMOVAL 
-        const finalHybridList = [...collaborativeItems, ...contentItems];
-        const uniqueRecommendations = finalHybridList.filter((item, index, self) =>
-          index === self.findIndex((m) => m.id === item.id)
-        );
-
-        // Keep the top 7 items to perfectly fit the UI row
-        setMovies(uniqueRecommendations.slice(0, 7));
+        setMovies(mergeRecommendations(collaborativeItems, contentItems));
       } catch (err) {
         console.error(`Error creating hybrid recommendations for ${mediaType}:`, err);
         setError("Unable to load recommendations right now.");
