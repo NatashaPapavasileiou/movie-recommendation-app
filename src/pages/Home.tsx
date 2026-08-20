@@ -12,11 +12,14 @@ import {
 
 
 
-const Home = ({handleMovieClick} : {handleMovieClick: (movieId:number) => void}) => {
-  const chooseWhatToDisplay: ItemsCategory[] = [
+const Home = ({handleMovieClick, handleTvClick} : {handleMovieClick: (movieId:number) => void; handleTvClick: (tvId:number) => void}) => {
+  const movieCategories: ItemsCategory[] = [
     createDisplayItems(now_playing, "Now Playing"),
     createDisplayItems(popular, "Popular Movies"),
     createDisplayItems(upcoming, "Upcoming"),
+  ];
+
+  const tvCategories: ItemsCategory[] = [
     createDisplayItems(trendingShows, "Trending Shows"),
     createDisplayItems(popularShows, "Popular Shows"),
     createDisplayItems(airing_today, "On Air Today"),
@@ -35,9 +38,10 @@ const Home = ({handleMovieClick} : {handleMovieClick: (movieId:number) => void})
       <RecommendationsRow 
         mediaType="tv" 
         itemHeading="Recommended TV Shows For You" 
-        handleMovieClick={handleMovieClick} 
+        handleMovieClick={handleTvClick} 
       />
-        <DisplayItems displayTags={chooseWhatToDisplay} handleMovieClick={handleMovieClick}/>
+        <DisplayItems displayTags={movieCategories} handleMovieClick={handleMovieClick}/>
+        <DisplayItems displayTags={tvCategories} handleMovieClick={handleTvClick}/>
       </div>
     </>
   );

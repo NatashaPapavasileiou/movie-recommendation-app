@@ -58,7 +58,7 @@ const App = () => {
           ) : (
             <>
               <Routes>
-                <Route path="/" element={<Home handleMovieClick={handleMovieClick}/>} />
+                <Route path="/" element={<Home handleMovieClick={handleMovieClick} handleTvClick={handleTvClick}/>} />
                 <Route path="movies" element={<Movies handleMovieClick={handleMovieClick}/>} />
                 <Route path="tvshows" element={<TvShows handleTvClick={handleTvClick}/>} />
                 <Route path="watchlist" element={<Watchlist isLoggedIn={!!session} />} />
