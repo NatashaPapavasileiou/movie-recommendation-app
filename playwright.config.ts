@@ -5,6 +5,7 @@ dotenv.config({ path: '.env.test.local' });
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
+  workers: 1,
   reporter: 'html',
   use: {
     baseURL: 'http://localhost:5173',
