@@ -16,7 +16,7 @@ test.describe('UC5 - Movie/TV Details', () => {
     await expect(firstCard).toBeVisible({ timeout: 15000 });
     await firstCard.click();
 
-    // Περιμένουμε να φορτώσει ΠΛΗΡΩΣ το overlay (όχι μόνο το σκελετό "Loading...")
+        // Wait for the overlay to fully load (not just the "Loading..." skeleton)
     await expect(page.getByRole('heading', { name: 'Trailer' })).toBeVisible({ timeout: 20000 });
   };
 

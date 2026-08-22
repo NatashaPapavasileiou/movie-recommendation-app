@@ -25,6 +25,7 @@ const WatchlistCard: React.FC<WatchlistCardProps> = ({
           src={poster_path ? `https://image.tmdb.org/t/p/w300${poster_path}` : noImage}
           alt={title}
           className={styles.posterImg}
+          loading="lazy"
         />
         <div className={styles.titleOverlay}>
           <h3 className={styles.movieTitle}>{title}</h3>

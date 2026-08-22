@@ -74,6 +74,7 @@ const CategorySection: React.FC<CategorySecProps> = ({
               src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
               alt={movie.title || movie.name}
               className={`${styles.posterImg} animatetext`}
+              loading="lazy"
               onError={(event) => {
                 event.currentTarget.src = noImage;
               }}

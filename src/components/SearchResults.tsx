@@ -25,6 +25,7 @@ const SearchResults: React.FC<SearchProptType> = ({ searchResults }) => {
                   src={`https://image.tmdb.org/t/p/w200/${item.poster_path}`}
                   alt={item.title || item.name}
                   className={styles.posterImg}
+                  loading="lazy"
                   onError={(event) => {
                     event.currentTarget.src = noImage;
                   }}

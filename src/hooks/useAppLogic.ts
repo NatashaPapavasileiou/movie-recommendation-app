@@ -104,7 +104,7 @@ export const useAppLogic = () => {
     };
 
     fetchSearchResults();
-  }, 400); // περιμένει 400ms μετά την τελευταία πληκτρολόγηση πριν κάνει fetch
+  }, 400); 
 
   return () => clearTimeout(timer);
   }, [searchQuery]);
