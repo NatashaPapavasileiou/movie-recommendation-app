@@ -1,26 +1,10 @@
 import { test, expect } from '@playwright/test';
+import { loginAsTestUser, openFirstRecommendedMovie } from './helpers';
 
 // UC5: Movie/TV Details
 test.describe('UC5 - Movie/TV Details', () => {
-  const openFirstRecommendedMovie = async (page: import('@playwright/test').Page) => {
-    await page.goto('/auth');
-    await page.getByPlaceholder('Email Address').fill(process.env.TEST_USER_EMAIL!);
-    await page.getByPlaceholder('Password').fill(process.env.TEST_USER_PASSWORD!);
-    await page.getByRole('button', { name: 'LOG IN' }).click();
-    await expect(page).not.toHaveURL(/\/auth/);
-
-    const recommendedMoviesRow = page.locator('[class*="categoryContainer"]').filter({
-      has: page.getByRole('heading', { name: 'Recommended Movies For You' }),
-    });
-    const firstCard = recommendedMoviesRow.locator('[class*="movieCard"]').first();
-    await expect(firstCard).toBeVisible({ timeout: 15000 });
-    await firstCard.click();
-
-        // Wait for the overlay to fully load (not just the "Loading..." skeleton)
-    await expect(page.getByRole('heading', { name: 'Trailer' })).toBeVisible({ timeout: 20000 });
-  };
-
   test('opens the movie overlay and shows trailer, cast, reviews and similar movies', async ({ page }) => {
+    await loginAsTestUser(page);
     await openFirstRecommendedMovie(page);
 
     await expect(page.getByRole('heading', { name: 'Trailer' })).toBeVisible();
@@ -29,16 +13,28 @@ test.describe('UC5 - Movie/TV Details', () => {
     await expect(page.getByRole('heading', { name: 'Community Reviews' })).toBeVisible();
   });
 
-    test('adds and removes the movie from the watchlist', async ({ page }) => {
+  test('toggles the movie in the watchlist and back', async ({ page }) => {
     page.on('dialog', (dialog) => dialog.accept());
 
+    await loginAsTestUser(page);
     await openFirstRecommendedMovie(page);
 
-    const watchlistBtn = page.getByRole('button', { name: /Watchlist/ });
-    await watchlistBtn.click();
-    await expect(page.getByRole('button', { name: '✓ In Watchlist' })).toBeVisible();
+    // The recommendations row can now contain titles that are already in the To-Watch list,
+    // so the test reads the current state first instead of assuming "Add to Watchlist"
+    const addBtn = page.getByRole('button', { name: '+ Add to Watchlist' });
+    const inBtn = page.getByRole('button', { name: '✓ In Watchlist' });
+    const wasInWatchlist = await inBtn.isVisible();
 
-    await page.getByRole('button', { name: '✓ In Watchlist' }).click();
-    await expect(page.getByRole('button', { name: '+ Add to Watchlist' })).toBeVisible();
+    if (wasInWatchlist) {
+      await inBtn.click();
+      await expect(addBtn).toBeVisible();
+      await addBtn.click();
+      await expect(inBtn).toBeVisible();
+    } else {
+      await addBtn.click();
+      await expect(inBtn).toBeVisible();
+      await inBtn.click();
+      await expect(addBtn).toBeVisible();
+    }
   });
 });

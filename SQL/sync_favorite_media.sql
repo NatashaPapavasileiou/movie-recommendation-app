@@ -1,24 +1,11 @@
--- Function: sync_favorite_media
--- Schema: public
--- Return type: trigger
--- Security: Definer
+-- Function: public.sync_favorite_media()  (trigger function)
+-- Security: DEFINER
 --
--- Keeps public.profiles.favorite_movies / favorite_shows automatically in
--- sync with the reviews the user has written:
---   - On INSERT/UPDATE of a review with rating >= 7, the reviewed item's
---     movie_id is added to the corresponding favorites array (deduplicated).
---   - On DELETE, or on UPDATE/INSERT where the rating drops below 7, the
---     movie_id is removed from the favorites array.
---
--- This keeps the "favorites" arrays used by the recommendation engine
--- (see get_pure_collaborative_recommendations.sql and the content-based
--- branch in RecommendationsRow.tsx) reflective of the user's actual
--- positively-rated reviews, without any client-side bookkeeping.
---
--- NOTE: Must be attached to a trigger on the reviews table (e.g. AFTER
--- INSERT OR UPDATE OR DELETE ON public.reviews FOR EACH ROW EXECUTE
--- FUNCTION sync_favorite_media()). See Database > Triggers in the
--- Supabase dashboard to confirm/export the exact trigger definition.
+-- Keeps profiles.favorite_movies / favorite_shows in sync with the user's reviews
+-- (reviews are stored in public.comments, column rating 1-10, column media_type 'movie' | 'tv'):
+--   - INSERT/UPDATE with rating >= 7  -> the title is added to the matching favorites array;
+--   - DELETE, or rating below 7        -> the title is removed from it.
+-- The favorites arrays feed both collaborative filtering and the content-based seed.
 
 CREATE OR REPLACE FUNCTION public.sync_favorite_media()
  RETURNS trigger
@@ -26,11 +13,11 @@ CREATE OR REPLACE FUNCTION public.sync_favorite_media()
  SECURITY DEFINER
 AS $function$
 BEGIN
-    -- Αν το review έχει βαθμολογία >= 7, προσθέτουμε το movie_id στις υπάρχουσες επιλογές χωρίς διπλότυπα
+    -- Rating >= 7: add the title to the matching favorites array (no duplicates)
     IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE') AND NEW.rating >= 7 THEN
         IF NEW.media_type = 'movie' THEN
             UPDATE public.profiles
-            -- Το array_cat ενώνει τους πίνακες και το select array_agg(distinct...) βγάζει τα διπλότυπα
+            -- array_cat appends the id, array_agg(DISTINCT ...) removes duplicates
             SET favorite_movies = (
                 SELECT array_agg(DISTINCT x)
                 FROM unnest(array_cat(favorite_movies, ARRAY[NEW.movie_id]::integer[])) x
@@ -45,9 +32,9 @@ BEGIN
             WHERE id = NEW.user_id;
         END IF;
 
-    -- Αν το review έπεσε κάτω από 7 ή διαγράφηκε, αφαιρούμε το movie_id από τη λίστα
+    -- Rating below 7, or review deleted: remove the title from the favorites array
     ELSIF TG_OP = 'DELETE' OR ((TG_OP = 'UPDATE' OR TG_OP = 'INSERT') AND NEW.rating < 7) THEN
-        -- Σε περίπτωση UPDATE/INSERT που έπεσε το rating, παίρνουμε το user_id από το NEW, στο DELETE από το OLD
+        -- On DELETE the row is in OLD, otherwise in NEW
         IF TG_OP = 'DELETE' THEN
             IF OLD.media_type = 'movie' THEN
                 UPDATE public.profiles
@@ -73,4 +60,10 @@ BEGIN
 
     RETURN NEW;
 END;
-$function$
+$function$;
+
+-- Trigger
+DROP TRIGGER IF EXISTS trigger_sync_favorites ON public.comments;
+CREATE TRIGGER trigger_sync_favorites
+  AFTER INSERT OR DELETE OR UPDATE ON public.comments
+  FOR EACH ROW EXECUTE FUNCTION public.sync_favorite_media();

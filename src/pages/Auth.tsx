@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../modules/supabaseClient";
-import LoginForm from "../components/LoginForm";
-import RegisterForm from "../components/RegisterForm";
-import ResetPassword from "../components/ResetPassword";
-import styles from "../components/Auth.module.css";
+import LoginForm from "../components/auth/LoginForm";
+import RegisterForm from "../components/auth/RegisterForm";
+import ResetPassword from "../components/auth/ResetPassword";
+import styles from "../components/auth/Auth.module.css";
 
 const Auth = () => {
   // Check the URL synchronously, before Supabase finishes processing it
@@ -14,6 +14,7 @@ const Auth = () => {
     window.location.hash.includes("type=recovery") ? "reset" : "login"
   );
   const navigate = useNavigate();
+
   // Detects the recovery session created when the user clicks the
   // reset-password link in their email, and shows the reset screen
   useEffect(() => {
@@ -28,7 +29,32 @@ const Auth = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const handleLoginSuccess = () => {
+  // Determine navigation target based on user role upon successful login
+  const handleLoginSuccess = async () => {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        // Fetch the user's role from public.profiles
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .maybeSingle();
+
+        // Redirect admins directly to the hidden dashboard
+        if (profile?.role === "admin") {
+          navigate("/admin");
+          return;
+        }
+      }
+    } catch (err) {
+      console.error("Error evaluating user role on login:", err);
+    }
+
+    // Default route for regular authenticated users
     navigate("/");
   };
 

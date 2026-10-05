@@ -3,7 +3,15 @@
     "target": "es2023",
     "module": "esnext",
     "moduleResolution": "bundler",
-    "types": ["node"]
+    "types": [
+      "node"
+    ],
+    "noEmit": true,
+    "tsBuildInfoFile": "../node_modules/.tmp/tsconfig.tests.tsbuildinfo",
+    "strict": true,
+    "skipLibCheck": true
   },
-  "include": ["./**/*.ts"]
+  "include": [
+    "./**/*.ts"
+  ]
 }

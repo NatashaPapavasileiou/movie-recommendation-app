@@ -1,4 +1,4 @@
-import DisplayItems from "../components/DisplayItems";
+import DisplayItems from "../components/shared/DisplayItems";
 import {
   airing_today,
   popularShows,

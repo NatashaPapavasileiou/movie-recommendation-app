@@ -1,5 +1,5 @@
-import DisplayItems from "../components/DisplayItems";
-import RecommendationsRow from "../components/RecommendationsRow";
+import DisplayItems from "../components/shared/DisplayItems";
+import RecommendationsRow from "../components/home/RecommendationsRow";
 import { createDisplayItems, type ItemsCategory } from "../modules/types_files";
 import {
   airing_today,

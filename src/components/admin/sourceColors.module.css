@@ -1,0 +1,10 @@
+/* src/components/admin/sourceColors.module.css
+   One fixed color per recommendation source, shared by the dashboard cards and the donut chart.
+   background-color colors the HTML swatches, fill colors the SVG slices. */
+
+.watchlist { background-color: #f59e0b; fill: #f59e0b; }
+.content { background-color: #8b5cf6; fill: #8b5cf6; }
+.collaborative { background-color: #3b82f6; fill: #3b82f6; }
+.genre { background-color: #10b981; fill: #10b981; }
+.genreFallback { background-color: #64748b; fill: #64748b; }
+.trending { background-color: #ef4444; fill: #ef4444; }

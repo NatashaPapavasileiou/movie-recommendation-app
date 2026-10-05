@@ -4,6 +4,8 @@ dotenv.config({ path: '.env.test.local' });
 
 export default defineConfig({
   testDir: './tests',
+  // Only the TypeScript specs (old compiled .js copies must never run twice)
+  testMatch: '**/*.spec.ts',
   fullyParallel: true,
   workers: 1,
   reporter: 'html',

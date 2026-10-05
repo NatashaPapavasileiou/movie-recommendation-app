@@ -31,3 +31,6 @@ dist-ssr
 /playwright/.auth/
 
 .env.test.local
+# Compiled test output (tests are TypeScript only)
+tests/*.js
+tests/*.tsbuildinfo

@@ -1,4 +1,4 @@
-import DisplayItems from "../components/DisplayItems";
+import DisplayItems from "../components/shared/DisplayItems";
 import { now_playing, popular, top_rated_movies, upcoming,  } from "../modules/ApiLinks";
 import { createDisplayItems, type ItemsCategory } from "../modules/types_files";
 

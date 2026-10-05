@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { supabase } from "../modules/supabaseClient";
 import { apiKey, baseUrl } from "../modules/ApiLinks";
-import { PreferenceHeader } from "../components/PreferenceHeader";
-import { MoviePreferenceCard } from "../components/MoviePreferenceCard";
-import { PreferenceFooterButton } from "../components/PreferenceFooterButton";
-import styles from "../components/Preference.module.css";
+import { PreferenceHeader } from "../components/setup/PreferenceHeader";
+import { MoviePreferenceCard } from "../components/setup/MoviePreferenceCard";
+import { PreferenceFooterButton } from "../components/setup/PreferenceFooterButton";
+import styles from "../components/setup/Preference.module.css";
 
 interface MediaItem {
   id: number;
@@ -63,7 +63,7 @@ export default function PreferenceSetupPage() {
 
   const handleFinish = async () => {
     if (selectedIds.length < 3) {
-      alert("Παρακαλώ επιλέξτε τουλάχιστον 3 αγαπημένα!");
+      alert("Please select at least 3 favorites!");
       return;
     }
     setSaving(true);
@@ -105,7 +105,7 @@ export default function PreferenceSetupPage() {
       navigate("/");
     } catch (err) {
       console.error("Error saving hybrid preferences:", err);
-      alert("Κάτι πήγε στραβά κατά την αποθήκευση.");
+      alert("Something went wrong while saving your preferences.");
     } finally {
       setSaving(false);
     }
@@ -114,7 +114,7 @@ export default function PreferenceSetupPage() {
   if (loading) return (
     <div className={styles.loaderContainer}>
       <Loader2 className={styles.spinner} />
-      <p style={{ color: "#a1a1aa", marginTop: "1rem" }}>Loading selections...</p>
+      <p className={styles.loaderText}>Loading selections...</p>
     </div>
   );
 

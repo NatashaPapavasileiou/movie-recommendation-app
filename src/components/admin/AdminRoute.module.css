@@ -1,0 +1,20 @@
+/* src/components/admin/AdminRoute.module.css */
+
+.loadingScreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #09090b;
+}
+
+.spinner {
+  color: #eab308;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

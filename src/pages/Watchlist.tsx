@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../modules/supabaseClient";
-import MovieOverlay from "../components/MovieOverlay";
-import TvOverlay from "../components/TvOverlay"; 
-import WatchlistColumn from "../components/WatchlistColumn";
-import { CommentForm } from "../components/CommentForm";
-import styles from "../components/Watchlist.module.css";
+import MovieOverlay from "../components/details/MovieOverlay";
+import TvOverlay from "../components/details/TvOverlay"; 
+import WatchlistColumn from "../components/watchlist/WatchlistColumn";
+import { CommentForm } from "../components/details/CommentForm";
+import styles from "../components/watchlist/Watchlist.module.css";
 
 interface WatchlistItem {
   id: number;

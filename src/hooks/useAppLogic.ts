@@ -94,10 +94,15 @@ export const useAppLogic = () => {
 
       setIsSearching(true);
       try {
-        const searchUrl = `${baseUrl}/search/multi?query=${searchQuery}&api_key=${apiKey}`;
+        // encodeURIComponent keeps titles with "&", "#" or "?" from breaking the URL
+        const searchUrl = `${baseUrl}/search/multi?query=${encodeURIComponent(searchQuery)}&api_key=${apiKey}`;
         const response = await axios.get(searchUrl);
         const data = response.data;
-        setSearchResults(data.results || []);
+        // /search/multi also returns people (actors); keep only movies and TV shows
+        const mediaOnly = ((data.results || []) as DataTypes[]).filter(
+          (item) => item.media_type === "movie" || item.media_type === "tv"
+        );
+        setSearchResults(mediaOnly);
       } catch (error) {
         console.error("Error fetching search results:", error);
       }

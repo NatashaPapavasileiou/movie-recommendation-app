@@ -1,0 +1,59 @@
+/* src/components/admin/ExplainabilityPieChart.module.css */
+
+.chart {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.slice {
+  stroke: #09090b;
+  stroke-width: 2;
+}
+
+.hole {
+  fill: #111827;
+}
+
+.total {
+  fill: #f4f4f5;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.totalLabel {
+  fill: #9ca3af;
+  font-size: 10px;
+}
+
+.legend {
+  flex: 1;
+  min-width: 240px;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legendLabel {
+  font-size: 0.9rem;
+  color: #f4f4f5;
+}
+
+.legendValue {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: #a1a1aa;
+}

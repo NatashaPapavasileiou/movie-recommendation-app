@@ -5,15 +5,37 @@ A modern, mobile-first movie and TV show recommendation platform. The applicatio
 https://d11g05bjaoqqa8.cloudfront.net
 
 🧠 How the Recommendation Algorithm Works
-Every time a user opens the Home page, the app builds up to 7 personalized recommendations by combining two independent sources:
+Every time a user opens the Home page, the app builds two personalized rows (movies and TV shows) of up to 12 titles each. The whole pipeline lives in src/modules/recommender/recommendationEngine.ts and is shared with the admin dashboard, so the admin always sees exactly what the user sees.
 
-1. Collaborative Filtering ("users like you") — a Supabase RPC function looks up other users who share favorite movies/shows with the current user, and surfaces up to 4 titles those similar users liked that the current user hasn't seen yet.
+1. Profile — the user's favorite movies and shows (picked during onboarding or rated 7+) and favorite genres are read from Supabase. Titles the user has already watched or rated are excluded.
 
-2. Content-Based Filtering ("because you liked X") — the app takes the user's top 3 favorite titles (chosen during onboarding or rated highly) and asks the TMDB API for official recommendations based on each one.
+2. Four sources, queried in parallel:
+   - Watchlist & onboarding — the latest titles in the user's To-Watch list (or their onboarding picks)
+   - Content-based ("because you liked X") — TMDB recommendations for the user's latest favorite of the same media type
+   - Collaborative filtering ("users like you") — a Supabase RPC that finds users sharing favorites with the current user
+   - Genre discovery — top-rated titles in the user's main genre (movie genres are converted to their TV equivalents for the TV row)
 
-3. Fallback — if a user has no interaction history yet (e.g. right after registering), the app falls back to popular titles filtered by the user's preferred genres, or general top-rated content if no genre preference exists either.
+3. Fair blending — each source contributes up to 3 titles, then the remaining places are backfilled; duplicates and titles of the wrong media type are removed.
 
-The results from both sources are then merged and deduplicated into a single list, capped at the top 7 items. This merge/deduplication logic lives in its own module (src/modules/mergeRecommendations.ts) and is covered by unit tests (npm run test:unit), independent of the live TMDB/Supabase data.
+4. Fallback — only if the row is still short: top-rated titles in the user's genres, then this week's trending titles (cold start).
+
+The blending logic (src/modules/recommender/mergeRecommendations.ts) and the genre conversion (genreAnalytics.ts) are covered by unit tests (npm run test:unit).
+
+🗂️ Project Structure
+src/pages — one file per route (Home, Movies, TvShows, Watchlist, Auth, PreferenceSetupPage, AdminDashboard)
+src/components/layout — Navbar, SearchResults, LoadingOverlay (rendered by App on every page)
+src/components/auth — LoginForm, RegisterForm, ResetPassword
+src/components/home — RecommendationsRow
+src/components/shared — DisplayItems (used by Home, Movies and TV Shows)
+src/components/details — MovieOverlay, TvOverlay, Comments, CommentForm
+src/components/setup — onboarding preference components
+src/components/watchlist — WatchlistColumn, WatchlistCard
+src/components/admin — AdminRoute, ExplainabilityPieChart
+src/modules/recommender — the hybrid recommendation engine and its four sources
+src/modules/admin — admin dashboard data, security audit logging and explainability
+src/modules — Supabase client, TMDB endpoints, shared types
+SQL — every Supabase table, function, trigger, view and policy (see SQL/README.md)
+tests — Playwright end-to-end tests
 
 🛠️ Tech Stack & Architecture
 Frontend: React, TypeScript, Vite, Tailwind CSS, CSS Modules
@@ -23,6 +45,8 @@ Backend & Database: Supabase (PostgreSQL, Row-Level Security, Stored Procedures/
 Data Provider: TMDB API (The Movie Database)
 
 Testing: Playwright (End-to-End functional testing), Vitest (unit testing of the recommendation algorithm)
+
+Administration: role-based admin dashboard (security audit logs, content and user analytics, explainable recommendations)
 
 Deployment: AWS S3 & CloudFront, automated via GitHub Actions CI/CD
 
@@ -62,19 +86,21 @@ Once the server compiles, open your web browser and navigate to the URL displaye
 🧪 Testing
 The project includes two layers of automated testing:
 
-Functional / End-to-End tests (Playwright) — cover the application's main use cases (login, registration, recommendations, search, movie/TV details, watchlist management, rate & review, logout). Before running, create a .env.test.local file with TEST_USER_EMAIL and TEST_USER_PASSWORD for a test account, then run:
+Functional / End-to-End tests (Playwright) — cover the application's main use cases (login, registration, recommendations, search & filters, movie/TV details, watchlist management, rate & review, logout, password reset and admin access). Before running, create a .env.test.local file with TEST_USER_EMAIL and TEST_USER_PASSWORD for a test account (and optionally TEST_ADMIN_EMAIL and TEST_ADMIN_PASSWORD for the admin tests), then run:
 
 npx playwright test
 
-Unit tests (Vitest) — cover the hybrid recommendation merge/deduplication logic in isolation:
+Unit tests (Vitest) — cover the recommendation blending logic and the genre conversion in isolation:
 
 npm run test:unit
 
 ☁️ Deployment / CI-CD
 Every push to the main branch automatically triggers a GitHub Actions pipeline that:
 
-1. Installs dependencies and builds the application
-2. Deploys the static build output to an AWS S3 bucket
-3. Invalidates the AWS CloudFront cache, so the live site always reflects the latest deployment
+1. Installs dependencies
+2. Runs the linter and the unit tests — a commit that fails either is never deployed
+3. Type-checks and builds the application
+4. Deploys the static build output to an AWS S3 bucket
+5. Invalidates the AWS CloudFront cache, so the live site always reflects the latest deployment
 
 The pipeline configuration can be found in .github/workflows/deploy.yml.

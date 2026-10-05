@@ -22,11 +22,18 @@ jobs:
           node-version: 20
           cache: 'npm' # Enable caching for faster dependency installation
 
-      # Step 3: Clean install of the application's dependencies
+      # Step 3: Install the application's dependencies
       - name: Install Dependencies
         run: npm install
 
-      # Step 4: Type-check and build the React application (produces the static dist folder)
+      # Step 4: Quality gate - a commit with lint errors or failing unit tests is never deployed
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests (Vitest)
+        run: npm run test:unit
+
+      # Step 5: Type-check and build the React application (produces the static dist folder)
       # Environment variables are securely injected here from GitHub Secrets
       - name: Build Application 
         env:
@@ -35,7 +42,7 @@ jobs:
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
         run: npm run build
 
-      # Step 5: Authenticate with AWS
+      # Step 6: Authenticate with AWS
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -43,7 +50,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1 # Or whichever region you chose on AWS (e.g. us-east-1)
 
-      # Step 6: Sync and upload the dist folder to the AWS S3 bucket
+      # Step 7: Sync and upload the dist folder to the AWS S3 bucket
       # Hashed assets (JS/CSS) get a long, immutable cache lifetime since their filename
       # changes on every build; index.html is always revalidated so it's never served stale.
       - name: Deploy static site to AWS S3
