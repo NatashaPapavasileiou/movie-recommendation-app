@@ -252,6 +252,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, isSearching, isLoggedIn, onLo
       <div className={styles.heroInfoWrapper}>
         {!isSearching && (
           <>
+            <p className={styles.appTagline}>
+              What to watch <span className={styles.appTaglineAccent}>today?</span>
+            </p>
             <h1 className={`${styles.infoTitle} movieTitle space tracking-wider`}>
               {movieData.title}
             </h1>
