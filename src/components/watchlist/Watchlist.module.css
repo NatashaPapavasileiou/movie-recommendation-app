@@ -1,5 +1,5 @@
 .watchlistPage {
-  padding: 2rem;
+  padding: 1rem;            /* mobile: less space around the columns */
   max-width: 95rem;
   margin: 0 auto;
   min-height: 80vh;
@@ -7,7 +7,7 @@
 }
 
 .pageHeaderBanner {
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   padding-left: 0.5rem;
 }
 
@@ -23,13 +23,14 @@
 
 
 .columnsLayoutContainer {
-  display: flex;
-  gap: 2rem;
+  display: flex;            /* the two columns stay side by side on every screen */
+  gap: 1rem;
   width: 100%;
 }
 
 .watchlistColumn {
   flex: 1;
+  min-width: 0;             /* lets each column shrink to half of a small screen */
   display: flex;
   flex-direction: column;
 }
@@ -46,7 +47,7 @@
 }
 
 .columnTitle {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   margin: 0;
@@ -61,8 +62,8 @@
 
 .columnGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr;   /* mobile: one smaller card per column */
+  gap: 1rem;
 }
 
 .movieCard {
@@ -83,7 +84,7 @@
 .posterWrapper {
   position: relative;
   width: 100%;
-  height: 20rem;
+  aspect-ratio: 2 / 3;      /* mobile: the height follows the width of the card */
 }
 
 .posterImg {
@@ -98,11 +99,11 @@
   left: 0;
   right: 0;
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-  padding: 2rem 1rem 1rem 1rem;
+  padding: 1.5rem 0.6rem 0.6rem 0.6rem;
 }
 
 .movieTitle {
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 600;
   margin: 0;
   color: #ffffff;
@@ -113,8 +114,8 @@
   background-color: #27272a;
   color: #a1a1aa;
   border: none;
-  padding: 0.85rem;
-  font-size: 0.85rem;
+  padding: 0.6rem 0.25rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   cursor: pointer;
@@ -146,13 +147,36 @@
   padding: 3rem 0;
 }
 
-@media (max-width: 768px) {
-  .columnsLayoutContainer {
-    flex-direction: column;
-    gap: 3rem;
+/* Tablet and desktop: the same sizes as before */
+@media (min-width: 768px) {
+  .watchlistPage {
+    padding: 2rem;
   }
-  .divider {
-    height: 1px;
-    width: 100%;
+  .pageHeaderBanner {
+    margin-bottom: 3rem;
+  }
+  .columnsLayoutContainer {
+    gap: 2rem;
+  }
+  .columnTitle {
+    font-size: 1.1rem;
+  }
+  .columnGrid {
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: 1.5rem;
+  }
+  .posterWrapper {
+    aspect-ratio: auto;
+    height: 20rem;
+  }
+  .titleOverlay {
+    padding: 2rem 1rem 1rem 1rem;
+  }
+  .movieTitle {
+    font-size: 1rem;
+  }
+  .cardActionButton {
+    padding: 0.85rem;
+    font-size: 0.85rem;
   }
 }
